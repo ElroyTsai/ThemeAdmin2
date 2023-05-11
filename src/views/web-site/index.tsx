@@ -15,7 +15,6 @@ const WebSite = () => {
 
   useEffect(() => {
     getAllfolder();
-    copyFolder({ site: "DM001-01" });
   }, []);
 
   return (

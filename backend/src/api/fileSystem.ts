@@ -57,59 +57,52 @@ const getAllFolder = async (): Promise<string[]> => {
  * *複製版控檔案
  **/
 
-const copyFolder = async (webSite: string): Promise<{ site: string }> => {
+const copyFolder = async (webSite: string): Promise<{ message: string }> => {
   // *主線路徑
   const sourcePath = path.join(sourcePathDisk);
   // 要複製的Theme版控路徑
   const themeTargetPath = path.join(themePath, webSite);
 
-  const directoryFilter = [
-    "package-lock.json",
-    "node_modules",
-    ".git",
-    "dist",
-    "public",
-  ];
-
-  // readdirp(
-  //   settings,
-  //   (fileInfo) => {
-  //     rawFilePaths.push(fileInfo.path.replace(/\\/g, '/'))
-  //   },
-  //   error => {
-  //     if (error) reject(error)
-  //     resolve(rawFilePaths)
-  //   }
-  // )
-  // const files = await readdirp.promise(sourcePath, settings);
-
-  // _.forEach(files, (e, i) => {});
+  const settings = {
+    entryType: "files",
+    directoryFilter: [
+      "!package-lock.json",
+      "!node_modules",
+      "!.git",
+      "!dist",
+      "!.github",
+      "!.vscode",
+      "!README",
+      "!.gitignore",
+    ],
+  };
 
   try {
-    // if (
-    //   (await fse.pathExists(modifyPath)) ||
-    //   (await fse.pathExists(`${sourcePath}.Backup`))
-    // ) {
-    //   await fse.remove(modifyPath);
-    //   await fse.remove(`${sourcePath}.Backup`);
-    // }
-    // // *複製主線到修改區
-    // await fse.copy(sourcePath, modifyPath, { filter: filterFunc });
-    fse.copySync(sourcePath, modifyPath, {
-      filter: (path) => {
-        return !(path.indexOf("node_modules") > -1);
-      },
+    /**
+     * !檢查是否存在
+     * !有的話就先刪除
+     */
+    if (fse.existsSync(modifyPath) || fse.existsSync(`${sourcePath}.Backup`)) {
+      fse.removeSync(modifyPath);
+      fse.removeSync(`${sourcePath}.Backup`);
+    }
+
+    const sourceFiles = await readdirp.promise(sourcePath, settings);
+    // *複製主線到修改區
+    _.forEach(sourceFiles, (e, i) => {
+      fse.copySync(e.fullPath, `${modifyPath}/${e.path}`);
     });
-    // // *Theme to Modify
-    // fse.copySync(themeTargetPath, modifyPath);
-    // // *複製一份BACKUP
-    // fse.copySync(modifyPath, `${sourcePath}.Backup`);
+
+    // *Theme to Modify
+    fse.copySync(themeTargetPath, modifyPath);
+
+    // *複製一份BACKUP
+    fse.copySync(modifyPath, `${sourcePath}.Backup`);
   } catch (error) {
     console.log(error);
   }
-
   return {
-    site: webSite,
+    message: `${webSite} 複製完成!!`,
   };
 };
 

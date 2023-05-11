@@ -6,7 +6,9 @@ const getAllFolder = (): Promise<HttpResponse<IFile>> => {
   return get("/getAllFolder");
 };
 
-const copyFolder = (params: any): Promise<HttpResponse<any>> => {
+const copyFolder = (
+  params: any
+): Promise<HttpResponse<{ message: string }>> => {
   return post("/copyFolder", params);
 };
 

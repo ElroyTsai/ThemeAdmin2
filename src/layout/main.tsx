@@ -17,7 +17,7 @@ const LayoutMain = () => {
   const getActiveRoute = useMemo(() => {
     let activeRoute = "";
     forEach(Routers[0].children, (e, i) => {
-      if (indexOf(e.path, location.pathname) >= -1) {
+      if (e.path === location.pathname) {
         activeRoute = e.name as string;
       }
     });
