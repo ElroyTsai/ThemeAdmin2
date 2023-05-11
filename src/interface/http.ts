@@ -1,5 +1,6 @@
 ﻿export interface HttpResponse<T> {
-  code: number;
-  data: T;
+  statusCode: number;
+  result: T;
+  error?: string;
   time: string;
 }

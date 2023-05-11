@@ -4,18 +4,26 @@ import Navbar from "./navbar/NavbarAdmin";
 
 import Sidebar from "./sidebar";
 import { Outlet, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import Footer from "~/components/footer/FooterAdmin";
-import { startCase } from "lodash-es";
+import { forEach, indexOf, startCase } from "lodash-es";
+import { Routers } from "~/router/router";
 
 const LayoutMain = () => {
   const [fixed] = useState(false);
   const { onOpen } = useDisclosure();
   const location = useLocation();
 
-  const getActiveRoute = (): string => {
-    return startCase(location.pathname.replace(/(\/)/gi, ""));
-  };
+  const getActiveRoute = useMemo(() => {
+    let activeRoute = "";
+    forEach(Routers[0].children, (e, i) => {
+      if (indexOf(e.path, location.pathname) >= -1) {
+        activeRoute = e.name as string;
+      }
+    });
+    return activeRoute;
+  }, [location]);
+
   return (
     <Box>
       <Sidebar />
@@ -37,7 +45,7 @@ const LayoutMain = () => {
           <Box>
             <Navbar
               onOpen={onOpen}
-              brandText={getActiveRoute()}
+              brandText={getActiveRoute}
               logoText={"Horizon UI Dashboard PRO"}
               fixed={fixed}
             />

@@ -6,10 +6,12 @@ export const Routers: Array<Router> = [
   {
     path: "",
     element: <LayoutMain />,
+    name: "",
     children: [
       {
         path: "/web-site",
         element: <WebSite />,
+        name: "站台控制",
       },
     ],
   },

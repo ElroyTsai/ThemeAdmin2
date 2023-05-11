@@ -8,7 +8,16 @@ import {
   StackDivider,
   Text,
 } from "@chakra-ui/react";
+import { useEffect } from "react";
+import useFileSystem from "~/hook/useFileSystem";
 const WebSite = () => {
+  const { getAllfolder, copyFolder } = useFileSystem();
+
+  useEffect(() => {
+    getAllfolder();
+    copyFolder({ site: "DM001-01" });
+  }, []);
+
   return (
     <Card>
       <CardHeader>

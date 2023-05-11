@@ -100,7 +100,7 @@ const HeaderLinks = () => {
               borderRadius="8px"
               px="14px"
             >
-              <Text fontSize="sm">Settings</Text>
+              <Text fontSize="sm">設定</Text>
             </MenuItem>
           </Flex>
         </MenuList>

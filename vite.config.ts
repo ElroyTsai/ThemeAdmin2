@@ -16,6 +16,7 @@ export default defineConfig({
     chunkSizeWarningLimit: 1000, // chunks 大小限制
     assetsInlineLimit: 100 * 1024,
     cssCodeSplit: true,
+    assetsDir: "",
     rollupOptions: {
       output: {
         chunkFileNames: "chunk-[name].[hash].js",
