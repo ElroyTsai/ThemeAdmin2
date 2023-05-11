@@ -101,7 +101,7 @@ const AdminNavbar = (props: {
             bg="inherit"
             borderRadius="inherit"
             fontWeight="bold"
-            fontSize="34px"
+            fontSize="20px"
             _hover={{ color: { mainText } }}
             _active={{
               bg: "inherit",

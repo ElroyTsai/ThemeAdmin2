@@ -1,3 +1,4 @@
+import { useToast } from "@chakra-ui/toast";
 import { useState } from "react";
 import { fileSystemService } from "~/core/api";
 import swal from "~/plugins/simpleAlert";
@@ -5,18 +6,15 @@ import swal from "~/plugins/simpleAlert";
 const useFileSystem = () => {
   const [folders, setFolder] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+  const [processCopy, setProcessCopy] = useState<boolean>(false);
+  const [processMove, setProcessMove] = useState<boolean>(false);
+  const [processDelete, setProcessDelete] = useState<boolean>(false);
+  const toast = useToast();
 
   const getAllfolder = async () => {
     try {
       setLoading(true);
       const resp = await fileSystemService.getAllFolder();
-      if (resp.statusCode !== 200) {
-        const alert = await swal({
-          icon: "error",
-          text: resp?.error,
-        });
-        if (alert.isConfirmed) return;
-      }
       setFolder(resp.result.folder);
     } catch (error) {
       console.log(error);
@@ -25,22 +23,93 @@ const useFileSystem = () => {
     }
   };
 
-  const copyFolder = async (params: any) => {
-    const resp = await fileSystemService.copyFolder(params);
-    if (resp.statusCode !== 200) {
-      await swal({
-        icon: "error",
-        text: resp?.error,
+  const copyFolder = async (params: { webSite: string }) => {
+    try {
+      setProcessCopy(true);
+      const resp = await fileSystemService.copyFolder(params);
+      if (resp.statusCode !== 200) {
+        toast({
+          title: resp.error,
+          status: "error",
+          duration: 5000,
+        });
+        return;
+      }
+      toast({
+        title: resp.result.message,
+        status: "success",
+        duration: 5000,
       });
-      return;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setProcessCopy(false);
     }
-    await swal({
-      icon: "success",
-      text: resp.result.message,
-    });
   };
 
-  return { loading, folders, getAllfolder, copyFolder };
+  const moveUpFolder = async (params: { webSite: string }) => {
+    try {
+      setProcessMove(true);
+      const resp = await fileSystemService.moveUpFolder(params);
+
+      if (resp.statusCode !== 200) {
+        toast({
+          title: resp.error,
+          status: "error",
+          duration: 5000,
+        });
+        return;
+      }
+
+      toast({
+        title: resp.result.message,
+        duration: 5000,
+        ...resp.result,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setProcessMove(false);
+    }
+  };
+
+  const deleteFolder = async () => {
+    try {
+      setProcessDelete(true);
+      const resp = await fileSystemService.deleteFolder();
+
+      if (resp.statusCode !== 200) {
+        toast({
+          title: resp.error,
+          status: "error",
+          duration: 5000,
+        });
+        return;
+      }
+
+      toast({
+        title: resp.result.message,
+        duration: 5000,
+        ...resp.result,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setProcessDelete(false);
+    }
+  };
+
+  return {
+    loading,
+    processCopy,
+    processMove,
+    processDelete,
+    folders,
+    getAllfolder,
+    copyFolder,
+    moveUpFolder,
+    deleteFolder,
+  };
 };
 
 export default useFileSystem;

@@ -12,7 +12,10 @@ import "~/assets/styles/index.scss";
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
-      <ChakraProvider theme={theme}>
+      <ChakraProvider
+        theme={theme}
+        toastOptions={{ defaultOptions: { position: "bottom-right" } }}
+      >
         <Provider store={store}>
           <PersistGate loading={null} persistor={persistor}>
             <App />

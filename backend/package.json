@@ -16,6 +16,7 @@
     "@fastify/cors": "8.1.0",
     "@fastify/static": "^6.10.1",
     "compressing": "^1.9.0",
+    "crypto": "^1.0.1",
     "dayjs": "^1.11.7",
     "fastify": "^4.17.0",
     "fs-extra": "^11.1.1",

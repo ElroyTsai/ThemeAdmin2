@@ -8,16 +8,14 @@ import {
 } from "@chakra-ui/react";
 // Custom components
 
-const InputField = (props: {
+const SelectField = (props: {
   id: string;
   label: string;
   extra?: JSX.Element;
-  placeholder: string;
-  type: string;
-  mb: any;
+  mb?: any;
   children: JSX.Element;
 }) => {
-  const { id, label, extra, placeholder, type, mb, children, ...rest } = props;
+  const { id, label, extra, mb, children, ...rest } = props;
   // Chakra Color Mode
   const textColorPrimary = useColorModeValue("secondaryGray.900", "white");
 
@@ -39,19 +37,9 @@ const InputField = (props: {
           </Text>
         )}
       </FormLabel>
-      <Input
-        {...rest}
-        type={type}
-        id={id}
-        fontWeight="500"
-        variant="main"
-        placeholder={placeholder}
-        _placeholder={{ fontWeight: "400", color: "secondaryGray.600" }}
-        h="44px"
-        maxH="44px"
-      />
+      {children}
     </Flex>
   );
 };
 
-export default InputField;
+export default SelectField;

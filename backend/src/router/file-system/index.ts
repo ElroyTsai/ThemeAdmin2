@@ -32,9 +32,9 @@ const FileSystemRoute: FastifyPluginAsync = async (
   server.post(
     "/copyFolder",
     {},
-    async (request: FastifyRequest<{ Body: { site: string } }>, reply) => {
+    async (request: FastifyRequest<{ Body: { webSite: string } }>, reply) => {
       try {
-        const resp = await fileSystem.copyFolder(request.body.site);
+        const resp = await fileSystem.copyFolder(request.body.webSite);
         return reply.code(200).send({
           statusCode: 200,
           result: { ...resp },
@@ -50,6 +50,49 @@ const FileSystemRoute: FastifyPluginAsync = async (
       }
     }
   );
+
+  server.post(
+    "/moveUpFolder",
+    {},
+    async (request: FastifyRequest<{ Body: { webSite: string } }>, reply) => {
+      try {
+        const resp = await fileSystem.moveUpFolder({
+          webSite: request.body.webSite,
+        });
+
+        return reply.code(200).send({
+          statusCode: 200,
+          result: { ...resp },
+          time: dayjs().unix(),
+        });
+      } catch (error) {
+        request.log.error(error);
+        return reply.code(500).send({
+          statusCode: 500,
+          error: "未知錯誤",
+          time: dayjs().unix(),
+        });
+      }
+    }
+  );
+
+  server.post("/deleteFolder", {}, async (request, reply) => {
+    try {
+      const resp = await fileSystem.deleteFolder();
+      return reply.code(200).send({
+        statusCode: 200,
+        result: { ...resp },
+        time: dayjs().unix(),
+      });
+    } catch (error) {
+      request.log.error(error);
+      return reply.code(500).send({
+        statusCode: 500,
+        error: "未知錯誤",
+        time: dayjs().unix(),
+      });
+    }
+  });
 };
 
 export default FileSystemRoute;

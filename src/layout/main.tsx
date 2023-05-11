@@ -53,7 +53,7 @@ const LayoutMain = () => {
         </Portal>
         <Box
           mx="auto"
-          p={{ base: "100px 20px 20px 20px", md: "100px 30px 30px 30px" }}
+          p={{ base: "130px 20px 20px 20px", md: "100px 30px 30px 30px" }}
           pe="20px"
           minH="100vh"
         >
