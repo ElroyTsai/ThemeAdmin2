@@ -95,7 +95,7 @@ const copyFiles = (
  **/
 const getAllFolder = async (): Promise<string[]> => {
   const result: string[] = [];
-  const folder = await fse.readdir("C:/Users/user/Project/theme");
+  const folder = await fse.readdir(themePath);
   _.filter(folder, (folderName) => folderName !== undefined).forEach(
     (folderName) => result.push(folderName.substr(0, 8))
   );
