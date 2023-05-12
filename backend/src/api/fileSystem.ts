@@ -18,8 +18,6 @@ init();
 
 async function getConfig() {
   try {
-    const json = '{"value":null}';
-    const data = JSON.parse(json);
     const resp = await setting.getSetting();
     modifyPath = resp.localPath.modifyPath;
     sourcePathDisk = resp.localPath.sourcePathDisk;
