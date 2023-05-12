@@ -1,7 +1,7 @@
 import { useToast } from "@chakra-ui/toast";
 import { useState } from "react";
 import { fileSystemService } from "~/core/api";
-import swal from "~/plugins/simpleAlert";
+import { EntryInfo, MoveFolderParams } from "~/interface";
 
 const useFileSystem = () => {
   const [folders, setFolder] = useState<string[]>([]);
@@ -35,6 +35,14 @@ const useFileSystem = () => {
         });
         return;
       }
+      localStorage.setItem(
+        "copyFolder",
+        JSON.stringify({
+          webSite: params.webSite,
+          data: resp.result.siteFile,
+          time: new Date(),
+        })
+      );
       toast({
         title: resp.result.message,
         status: "success",
@@ -47,7 +55,7 @@ const useFileSystem = () => {
     }
   };
 
-  const moveUpFolder = async (params: { webSite: string }) => {
+  const moveUpFolder = async (params: MoveFolderParams) => {
     try {
       setProcessMove(true);
       const resp = await fileSystemService.moveUpFolder(params);

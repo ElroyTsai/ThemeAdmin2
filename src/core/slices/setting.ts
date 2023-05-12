@@ -3,7 +3,7 @@ import { ISetting } from "~/interface/setting";
 import { settingService } from "../api";
 
 const initialState: ISetting = {
-  localpath: {
+  localPath: {
     modifyPath: "",
     sourcePathDisk: "",
     themePath: "",

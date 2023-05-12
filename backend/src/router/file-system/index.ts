@@ -6,6 +6,7 @@ import {
 } from "fastify";
 import { fileSystem } from "../../api";
 import dayjs from "dayjs";
+import readdir from "readdirp";
 
 const FileSystemRoute: FastifyPluginAsync = async (
   server: FastifyInstance,
@@ -54,10 +55,16 @@ const FileSystemRoute: FastifyPluginAsync = async (
   server.post(
     "/moveUpFolder",
     {},
-    async (request: FastifyRequest<{ Body: { webSite: string } }>, reply) => {
+    async (
+      request: FastifyRequest<{
+        Body: { webSite: string; lastData: readdir.EntryInfo[] };
+      }>,
+      reply
+    ) => {
       try {
         const resp = await fileSystem.moveUpFolder({
           webSite: request.body.webSite,
+          lastData: request.body.lastData,
         });
 
         return reply.code(200).send({

@@ -1,10 +1,11 @@
 import { Box, Button, Card, CardBody, Select, Text } from "@chakra-ui/react";
 import { map } from "lodash-es";
-import { Form, Formik } from "formik";
+import { Formik } from "formik";
 import * as Yup from "yup";
 import { useEffect } from "react";
 import useFileSystem from "~/hook/useFileSystem";
 import SelectField from "~/components/fields/SelectField";
+import { LastData } from "~/interface";
 const WebSite = () => {
   const {
     processCopy,
@@ -87,7 +88,12 @@ const WebSite = () => {
                     isLoading={processMove}
                     loadingText="處理中..."
                     onClick={() => {
-                      moveUpFolder(formik.values);
+                      const copyFolder = localStorage.getItem(
+                        "copyFolder"
+                      ) as string;
+                      const lastData = (JSON.parse(copyFolder) as LastData)
+                        .data;
+                      moveUpFolder({ ...formik.values, lastData });
                     }}
                   >
                     搬移站台

@@ -104,7 +104,9 @@ const getAllFolder = async (): Promise<string[]> => {
  * *複製版控檔案
  **/
 
-const copyFolder = async (webSite: string): Promise<{ message: string }> => {
+const copyFolder = async (
+  webSite: string
+): Promise<{ message: string; siteFile: readdirp.EntryInfo[] }> => {
   // *主線路徑
   const sourcePath = path.join(sourcePathDisk);
   // *要複製的Theme版控路徑
@@ -114,6 +116,8 @@ const copyFolder = async (webSite: string): Promise<{ message: string }> => {
     entryType: "files",
     directoryFilter: ["!.git", "!node_modules", "!dist", "!.github"],
   };
+
+  const siteFile = await readdirp.promise(themeTargetPath, settings);
 
   try {
     /**
@@ -126,6 +130,7 @@ const copyFolder = async (webSite: string): Promise<{ message: string }> => {
     }
 
     const sourceFiles = await readdirp.promise(sourcePath, settings);
+
     // *複製主線到修改區
     _.forEach(sourceFiles, (e, i) => {
       fse.copySync(e.fullPath, `${modifyPath}/${e.path}`);
@@ -141,11 +146,13 @@ const copyFolder = async (webSite: string): Promise<{ message: string }> => {
   }
   return {
     message: `${webSite} 複製完成!!`,
+    siteFile,
   };
 };
 
 const moveUpFolder = async ({
   webSite,
+  lastData,
 }: IMoveeFolderParams): Promise<{ message: string; status: string }> => {
   const removeFile = [];
   // *目標站名
@@ -169,25 +176,28 @@ const moveUpFolder = async ({
     sourcePath + ".Backup"
   );
 
-  const checkDelFile = async (lastData: any) => {
-    for (let i = 0; i < lastData.length; i++) {
-      const modifyFile = path.join(modifyPath, lastData[i]);
-      const tFSFile = path.join(themePath, webSite, lastData[i]);
+  const checkDelFile = async (
+    webSite: string,
+    lastData: readdirp.EntryInfo[]
+  ) => {
+    _.forEach(lastData, async (e, i) => {
+      const modifyFile = path.join(modifyPath, e.path);
+      console.log(fse.pathExistsSync(modifyFile));
+      const tFSFile = path.join(themePath, webSite, e.path);
       if (!fse.pathExistsSync(modifyFile)) {
-        await fse.remove(tFSFile);
+        fse.removeSync(tFSFile);
         removeFile.push(modifyFile);
       }
-    }
+    });
   };
 
-  // 自動刪版控檔案
-  // if (lastData) {
-  //   checkDelFile(lastData);
-  // }
+  // *自動刪版控檔案
+  if (_.size(lastData) !== 0) {
+    await checkDelFile(webSite, lastData);
+  }
 
   //*複製DIST到版控;
   if (_.size(resultFilePaths) !== 0) {
-    // console.log(123);
     await copyFiles(resultFilePaths, modifyPath, modifyPathDist);
     fse.copySync(modifyPathDist, themeTargetPath);
     fse.removeSync(path.join(themeTargetPath, "package-lock.json"));

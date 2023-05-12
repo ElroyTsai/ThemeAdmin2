@@ -5,7 +5,7 @@ import Layout from "./layout";
 
 const App = () => {
   useEffect(() => {
-    store.dispatch(getSetting);
+    store.dispatch(getSetting());
   }, []);
 
   return <Layout />;

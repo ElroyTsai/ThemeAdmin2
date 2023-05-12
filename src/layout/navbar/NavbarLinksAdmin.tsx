@@ -11,12 +11,15 @@ import {
   Text,
   useColorModeValue,
   useColorMode,
+  useDisclosure,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { IoMdMoon, IoMdSunny } from "react-icons/io";
 import SidebarResponsive from "../sidebar/component/SidebarResponsive";
+import SettingModal from "../setting";
 
 const HeaderLinks = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
   // Chakra Color Mode
   const navbarIcon = useColorModeValue("gray.400", "white");
@@ -28,84 +31,88 @@ const HeaderLinks = () => {
     "14px 17px 40px 4px rgba(112, 144, 176, 0.06)"
   );
   return (
-    <Flex
-      w={{ sm: "100%", md: "auto" }}
-      alignItems="center"
-      flexDirection="row"
-      bg={menuBg}
-      flexWrap={{ base: "wrap", md: "nowrap" }}
-      p="10px"
-      borderRadius="30px"
-      boxShadow={shadow}
-    >
-      <SidebarResponsive />
-
-      <Button
-        variant="no-hover"
-        bg="transparent"
-        p="0px"
-        minW="unset"
-        minH="unset"
-        h="18px"
-        w="max-content"
-        onClick={toggleColorMode}
+    <>
+      <Flex
+        w={{ sm: "100%", md: "auto" }}
+        alignItems="center"
+        flexDirection="row"
+        bg={menuBg}
+        flexWrap={{ base: "wrap", md: "nowrap" }}
+        p="10px"
+        borderRadius="30px"
+        boxShadow={shadow}
       >
-        <Icon
-          me="10px"
-          h="18px"
-          w="18px"
-          color={navbarIcon}
-          as={colorMode === "light" ? IoMdMoon : IoMdSunny}
-        />
-      </Button>
-      <Menu>
-        <MenuButton p="0px">
-          <Avatar
-            _hover={{ cursor: "pointer" }}
-            color="white"
-            name="Elroy"
-            bg="#11047A"
-            size="sm"
-            w="40px"
-            h="40px"
-          />
-        </MenuButton>
-        <MenuList
-          boxShadow={shadow}
+        <SidebarResponsive />
+
+        <Button
+          variant="no-hover"
+          bg="transparent"
           p="0px"
-          mt="10px"
-          borderRadius="20px"
-          bg={menuBg}
-          border="none"
+          minW="unset"
+          minH="unset"
+          h="18px"
+          w="max-content"
+          onClick={toggleColorMode}
         >
-          <Flex w="100%" mb="0px">
-            <Text
-              ps="20px"
-              pt="16px"
-              pb="10px"
-              w="100%"
-              borderBottom="1px solid"
-              borderColor={borderColor}
-              fontSize="sm"
-              fontWeight="700"
-              color={textColor}
-            >
-              👋&nbsp; Hey, Elroy
-            </Text>
-          </Flex>
-          <Flex flexDirection="column" p="10px">
-            <MenuItem
-              _hover={{ bg: "none" }}
-              _focus={{ bg: "none" }}
-              borderRadius="8px"
-              px="14px"
-            >
-              <Text fontSize="sm">設定</Text>
-            </MenuItem>
-          </Flex>
-        </MenuList>
-      </Menu>
-    </Flex>
+          <Icon
+            me="10px"
+            h="18px"
+            w="18px"
+            color={navbarIcon}
+            as={colorMode === "light" ? IoMdMoon : IoMdSunny}
+          />
+        </Button>
+        <Menu>
+          <MenuButton p="0px">
+            <Avatar
+              _hover={{ cursor: "pointer" }}
+              color="white"
+              name="Elroy"
+              bg="#11047A"
+              size="sm"
+              w="40px"
+              h="40px"
+            />
+          </MenuButton>
+          <MenuList
+            boxShadow={shadow}
+            p="0px"
+            mt="10px"
+            borderRadius="20px"
+            bg={menuBg}
+            border="none"
+          >
+            <Flex w="100%" mb="0px">
+              <Text
+                ps="20px"
+                pt="16px"
+                pb="10px"
+                w="100%"
+                borderBottom="1px solid"
+                borderColor={borderColor}
+                fontSize="sm"
+                fontWeight="700"
+                color={textColor}
+              >
+                👋&nbsp; Hey, Elroy
+              </Text>
+            </Flex>
+            <Flex flexDirection="column" p="10px">
+              <MenuItem
+                _hover={{ bg: "none" }}
+                _focus={{ bg: "none" }}
+                borderRadius="8px"
+                px="14px"
+                onClick={onOpen}
+              >
+                <Text fontSize="sm">設定</Text>
+              </MenuItem>
+            </Flex>
+          </MenuList>
+        </Menu>
+      </Flex>
+      {isOpen && <SettingModal isOpen={isOpen} onClose={onClose} />}
+    </>
   );
 };
 

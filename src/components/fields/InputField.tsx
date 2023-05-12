@@ -12,10 +12,10 @@ const InputField = (props: {
   id: string;
   label: string;
   extra?: JSX.Element;
-  placeholder: string;
+  placeholder?: string;
   type: string;
-  mb: any;
-  children: JSX.Element;
+  mb?: any;
+  children?: React.ReactNode;
 }) => {
   const { id, label, extra, placeholder, type, mb, children, ...rest } = props;
   // Chakra Color Mode
@@ -50,6 +50,7 @@ const InputField = (props: {
         h="44px"
         maxH="44px"
       />
+      {children}
     </Flex>
   );
 };

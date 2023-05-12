@@ -1,4 +1,6 @@
-﻿export interface IMoveeFolderParams {
+﻿import readdir from "readdirp";
+
+export interface IMoveeFolderParams {
   webSite: string;
-  lastData?: any;
+  lastData?: readdir.EntryInfo[];
 }

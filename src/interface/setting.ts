@@ -1,5 +1,5 @@
 ﻿export interface ISetting {
-  localpath: {
+  localPath: {
     modifyPath: string;
     sourcePathDisk: string;
     themePath: string;

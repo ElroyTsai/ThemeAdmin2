@@ -21,7 +21,7 @@ const getSetting = async (): Promise<ISetting> => {
   return JSON.parse(await fse.readFile(file, "utf8"));
 };
 
-const setSetting = async (params: any): Promise<void> => {
+const setSetting = async (params: ISetting): Promise<void> => {
   return await fse.writeFile(file, JSON.stringify(params), "utf8");
 };
 
