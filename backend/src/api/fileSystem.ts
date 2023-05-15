@@ -107,16 +107,17 @@ const getAllFolder = async (): Promise<string[]> => {
 const copyFolder = async (
   webSite: string
 ): Promise<{ message: string; siteFile: readdirp.EntryInfo[] }> => {
-  // *主線路徑
-  const sourcePath = path.join(sourcePathDisk);
-  // *要複製的Theme版控路徑
-  const themeTargetPath = path.join(themePath, webSite);
-
   const settings = {
     entryType: "files",
     directoryFilter: ["!.git", "!node_modules", "!dist", "!.github"],
   };
 
+  // *主線路徑
+  const sourcePath = path.join(sourcePathDisk);
+  // *要複製的Theme版控路徑
+  const themeTargetPath = path.join(themePath, webSite);
+
+  const sourceFiles = await readdirp.promise(sourcePath, settings);
   const siteFile = await readdirp.promise(themeTargetPath, settings);
 
   try {
@@ -128,8 +129,6 @@ const copyFolder = async (
       fse.removeSync(modifyPath);
       fse.removeSync(`${sourcePath}.Backup`);
     }
-
-    const sourceFiles = await readdirp.promise(sourcePath, settings);
 
     // *複製主線到修改區
     _.forEach(sourceFiles, (e, i) => {
