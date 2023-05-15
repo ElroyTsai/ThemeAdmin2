@@ -182,7 +182,6 @@ const moveUpFolder = async ({
   ) => {
     _.forEach(lastData, async (e, i) => {
       const modifyFile = path.join(modifyPath, e.path);
-      console.log(fse.pathExistsSync(modifyFile));
       const tFSFile = path.join(themePath, webSite, e.path);
       if (!fse.pathExistsSync(modifyFile)) {
         fse.removeSync(tFSFile);
