@@ -20,8 +20,8 @@ export default defineConfig({
         skipWaiting: true,
       },
       manifest: {
-        name: "DMEO",
-        short_name: "DMEO",
+        name: "ThemeAdmin",
+        short_name: "ThemeAdmin",
         theme_color: "#fafafa",
         start_url: ".",
         display: "standalone",
