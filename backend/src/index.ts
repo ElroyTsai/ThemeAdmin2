@@ -1,5 +1,5 @@
 import startServer from "./server";
 
-const port = 88;
+const port = 8888;
 
 startServer(port);
