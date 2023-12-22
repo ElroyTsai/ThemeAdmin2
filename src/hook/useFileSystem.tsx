@@ -1,4 +1,5 @@
 import { useToast } from "@chakra-ui/toast";
+import { filter } from "lodash-es";
 import { useState } from "react";
 import { fileSystemService } from "~/core/api";
 import { EntryInfo, MoveFolderParams } from "~/interface";
@@ -15,7 +16,9 @@ const useFileSystem = () => {
     try {
       setLoading(true);
       const resp = await fileSystemService.getAllFolder();
-      setFolder(resp.result.folder);
+      const data = filter(resp.result.folder, (e) => e !== ".git");
+      console.log(data);
+      setFolder(data);
     } catch (error) {
       console.log(error);
     } finally {
