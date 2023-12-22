@@ -20,16 +20,36 @@ export default defineConfig({
         skipWaiting: true,
       },
       manifest: {
-        name: "ThemeAdmin",
-        short_name: "ThemeAdmin",
+        name: "DMEO",
+        short_name: "DMEO",
         theme_color: "#fafafa",
         start_url: ".",
         display: "standalone",
         icons: [
           {
-            src: "/vite.svg",
+            src: `/images/icon_48.png`,
             sizes: "48x48",
-            type: "image/svg",
+            type: "image/png",
+          },
+          {
+            src: `/images/icon_72.png`,
+            sizes: "72x72",
+            type: "image/png",
+          },
+          {
+            src: `/images/icon_96.png`,
+            sizes: "96x96",
+            type: "image/png",
+          },
+          {
+            src: `/images/icon_144.png`,
+            sizes: "144x144",
+            type: "image/png",
+          },
+          {
+            src: `/images/icon_192.png`,
+            sizes: "192x192",
+            type: "image/png",
           },
         ],
       },
