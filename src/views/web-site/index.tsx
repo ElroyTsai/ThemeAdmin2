@@ -1,10 +1,24 @@
-import { Box, Button, Card, CardBody, Select, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Card,
+  CardBody,
+  FormControl,
+  FormLabel,
+  Select,
+  Text,
+} from "@chakra-ui/react";
+import {
+  AutoComplete,
+  AutoCompleteInput,
+  AutoCompleteItem,
+  AutoCompleteList,
+} from "@choc-ui/chakra-autocomplete";
 import { map } from "lodash-es";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useEffect } from "react";
 import useFileSystem from "~/hook/useFileSystem";
-import SelectField from "~/components/fields/SelectField";
 import { LastData } from "~/interface";
 const WebSite = () => {
   const {
@@ -39,7 +53,7 @@ const WebSite = () => {
           {(formik) => (
             <Box>
               <form>
-                <SelectField id="webSite" label="選擇站台">
+                {/* <SelectField id="webSite" label="選擇站台">
                   <>
                     <Select
                       id="webSite"
@@ -61,7 +75,29 @@ const WebSite = () => {
                       </Text>
                     )}
                   </>
-                </SelectField>
+                </SelectField> */}
+                <FormControl mb={6}>
+                  <FormLabel>選擇站台</FormLabel>
+                  <AutoComplete openOnFocus>
+                    <AutoCompleteInput variant="outline" />
+                    <AutoCompleteList>
+                      {map(folders, (e, i) => (
+                        <AutoCompleteItem
+                          key={i}
+                          value={e}
+                          textTransform="capitalize"
+                        >
+                          {e}
+                        </AutoCompleteItem>
+                      ))}
+                    </AutoCompleteList>
+                  </AutoComplete>
+                  {formik.touched.webSite && formik.errors.webSite && (
+                    <Text color="red.500" mt={1}>
+                      {formik.errors.webSite}
+                    </Text>
+                  )}
+                </FormControl>
                 <Box
                   display="grid"
                   gap="1rem"

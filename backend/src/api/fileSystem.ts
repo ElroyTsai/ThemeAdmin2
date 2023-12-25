@@ -166,7 +166,14 @@ const moveUpFolder = async ({
   const settings = {
     root: modifyPath,
     entryType: "files",
-    directoryFilter: ["!.git", "!node_modules", "!dist", "!.github"],
+    directoryFilter: [
+      "!.git",
+      "!.idea",
+      "!deploy",
+      "!node_modules",
+      "!dist",
+      "!.github",
+    ],
   };
   const rawFilePaths = await readdirp.promise(modifyPath, settings);
   const resultFilePaths = listModifyFilePath(
