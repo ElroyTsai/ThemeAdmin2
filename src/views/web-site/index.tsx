@@ -53,33 +53,13 @@ const WebSite = () => {
           {(formik) => (
             <Box>
               <form>
-                {/* <SelectField id="webSite" label="選擇站台">
-                  <>
-                    <Select
-                      id="webSite"
-                      h="44px"
-                      maxH="44px"
-                      placeholder="請選擇"
-                      {...formik.getFieldProps("webSite")}
-                    >
-                      {map(folders, (e, i) => (
-                        <option key={i} value={e}>
-                          {e}
-                        </option>
-                      ))}
-                    </Select>
-
-                    {formik.touched.webSite && formik.errors.webSite && (
-                      <Text color="red.500" mt={1}>
-                        {formik.errors.webSite}
-                      </Text>
-                    )}
-                  </>
-                </SelectField> */}
                 <FormControl mb={6}>
                   <FormLabel>選擇站台</FormLabel>
                   <AutoComplete openOnFocus>
-                    <AutoCompleteInput variant="outline" />
+                    <AutoCompleteInput
+                      variant="outline"
+                      style={{ color: "#000" }}
+                    />
                     <AutoCompleteList>
                       {map(folders, (e, i) => (
                         <AutoCompleteItem

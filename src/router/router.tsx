@@ -9,7 +9,7 @@ export const Routers: Array<Router> = [
     name: "",
     children: [
       {
-        path: "/web-site",
+        path: "/",
         element: <WebSite />,
         name: "站台控制",
       },

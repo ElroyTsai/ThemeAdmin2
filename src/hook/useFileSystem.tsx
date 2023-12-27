@@ -1,6 +1,6 @@
 import { useToast } from "@chakra-ui/toast";
 import { filter } from "lodash-es";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { fileSystemService } from "~/core/api";
 import { EntryInfo, MoveFolderParams } from "~/interface";
 
@@ -12,21 +12,21 @@ const useFileSystem = () => {
   const [processDelete, setProcessDelete] = useState<boolean>(false);
   const toast = useToast();
 
-  const getAllfolder = async () => {
+  const getAllfolder = useCallback(async () => {
     try {
       setLoading(true);
       const resp = await fileSystemService.getAllFolder();
       const data = filter(resp.result.folder, (e) => e !== ".git");
-      console.log(data);
       setFolder(data);
     } catch (error) {
       console.log(error);
+      throw error;
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const copyFolder = async (params: { webSite: string }) => {
+  const copyFolder = useCallback(async (params: { webSite: string }) => {
     try {
       setProcessCopy(true);
       const resp = await fileSystemService.copyFolder(params);
@@ -56,9 +56,9 @@ const useFileSystem = () => {
     } finally {
       setProcessCopy(false);
     }
-  };
+  }, []);
 
-  const moveUpFolder = async (params: MoveFolderParams) => {
+  const moveUpFolder = useCallback(async (params: MoveFolderParams) => {
     try {
       setProcessMove(true);
       const resp = await fileSystemService.moveUpFolder(params);
@@ -82,9 +82,9 @@ const useFileSystem = () => {
     } finally {
       setProcessMove(false);
     }
-  };
+  }, []);
 
-  const deleteFolder = async () => {
+  const deleteFolder = useCallback(async () => {
     try {
       setProcessDelete(true);
       const resp = await fileSystemService.deleteFolder();
@@ -108,7 +108,7 @@ const useFileSystem = () => {
     } finally {
       setProcessDelete(false);
     }
-  };
+  }, []);
 
   return {
     loading,

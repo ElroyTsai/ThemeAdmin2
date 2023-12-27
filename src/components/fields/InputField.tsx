@@ -46,7 +46,7 @@ const InputField = (props: {
         fontWeight="500"
         variant="main"
         placeholder={placeholder}
-        _placeholder={{ fontWeight: "400", color: "secondaryGray.600" }}
+        _placeholder={{ fontWeight: "400" }}
         h="44px"
         maxH="44px"
       />
