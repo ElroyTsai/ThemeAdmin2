@@ -55,7 +55,12 @@ const WebSite = () => {
               <form>
                 <FormControl mb={6}>
                   <FormLabel>選擇站台</FormLabel>
-                  <AutoComplete openOnFocus>
+                  <AutoComplete
+                    openOnFocus
+                    onChange={(vals: string) =>
+                      formik.setFieldValue("webSite", vals)
+                    }
+                  >
                     <AutoCompleteInput
                       variant="outline"
                       style={{ color: "#000" }}
