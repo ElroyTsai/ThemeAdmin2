@@ -109,7 +109,7 @@ const copyFolder = async (
 ): Promise<{ message: string; siteFile: readdirp.EntryInfo[] }> => {
   const settings = {
     entryType: "files",
-    directoryFilter: ["!.git", "!dist", "!.github"],
+    directoryFilter: ["!.git", "!node_modules", "!dist", "!.github"],
   };
 
   // *主線路徑
@@ -166,7 +166,14 @@ const moveUpFolder = async ({
   const settings = {
     root: modifyPath,
     entryType: "files",
-    directoryFilter: ["!.git", "!.idea", "!deploy", "!dist", "!.github"],
+    directoryFilter: [
+      "!.git",
+      "!.idea",
+      "!deploy",
+      "!node_modules",
+      "!dist",
+      "!.github",
+    ],
   };
   const rawFilePaths = await readdirp.promise(modifyPath, settings);
   const resultFilePaths = listModifyFilePath(
