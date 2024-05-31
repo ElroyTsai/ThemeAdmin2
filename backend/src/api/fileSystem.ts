@@ -173,6 +173,7 @@ const moveUpFolder = async ({
       "!node_modules",
       "!dist",
       "!.github",
+      "!.next",
     ],
   };
   const rawFilePaths = await readdirp.promise(modifyPath, settings);
